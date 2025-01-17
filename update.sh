@@ -68,6 +68,13 @@ update_feeds() {
         echo "src-git small8 https://github.com/kenzok8/small-package" >>"$BUILD_DIR/$FEEDS_CONF"
     fi
 
+    # 检查并添加 kiddin9-package 源
+    if ! grep -q "kiddin9-package" "$BUILD_DIR/$FEEDS_CONF"; then
+        # 确保文件以换行符结尾
+        [ -z "$(tail -c 1 "$BUILD_DIR/$FEEDS_CONF")" ] || echo "" >>"$BUILD_DIR/$FEEDS_CONF"
+        echo "src-git kiddin9 https://github.com/kiddin9/kwrt-packages" >>"$BUILD_DIR/$FEEDS_CONF"
+    fi
+
     # 添加bpf.mk解决更新报错
     if [ ! -f "$BUILD_DIR/include/bpf.mk" ]; then
         touch "$BUILD_DIR/include/bpf.mk"
@@ -83,17 +90,20 @@ remove_unwanted_packages() {
         "luci-app-passwall" "luci-app-smartdns" "luci-app-ddns-go" "luci-app-rclone"
         "luci-app-ssr-plus" "luci-app-vssr" "luci-theme-argon" "luci-app-daed" "luci-app-dae"
         "luci-app-alist" "luci-app-argon-config" "luci-app-homeproxy" "luci-app-haproxy-tcp"
-        "luci-app-openclash" "luci-app-mihomo"
+        "luci-app-openclash" "luci-app-mihomo" "luci-app-docker" "luci-app-dockerman"
     )
     local packages_net=(
         "haproxy" "xray-core" "xray-plugin" "dns2socks" "alist" "hysteria"
         "smartdns" "mosdns" "adguardhome" "ddns-go" "naiveproxy" "shadowsocks-rust"
         "sing-box" "v2ray-core" "v2ray-geodata" "v2ray-plugin" "tuic-client"
         "chinadns-ng" "ipt2socks" "tcping" "trojan-plus" "simple-obfs"
-        "shadowsocksr-libev" "dae" "daed" "mihomo" "geoview"
+        "shadowsocksr-libev" "dae" "daed" "mihomo" "geoview" "dockerd" "docker"
     )
     local small8_packages=(
-        "ppp" "firewall" "dae" "daed" "daed-next" "libnftnl" "nftables" "dnsmasq"
+        "ppp" "firewall" "dae" "daed" "daed-next" "libnftnl" "nftables" "dnsmasq" "dockerd" "docker" "docker-compose" "luci-app-docker" "luci-app-dockerman"
+    )
+    local kiddin9_packages=(
+        "ppp" "firewall" "dae" "daed" "daed-next" "libnftnl" "nftables" "dnsmasq" "luci-app-store" "quickstart" "luci-app-quickstart" "luci-app-istorex" "dockerd" "luci-app-docker" "luci-app-dockerman"
     )
 
     for pkg in "${luci_packages[@]}"; do
@@ -107,6 +117,10 @@ remove_unwanted_packages() {
 
     for pkg in "${small8_packages[@]}"; do
         \rm -rf ./feeds/small8/$pkg
+    done
+
+    for pkg in "${kiddin9_packages[@]}"; do
+        \rm -rf ./feeds/kiddin9/$pkg
     done
 
     if [[ -d ./package/istore ]]; then
@@ -129,10 +143,13 @@ install_small8() {
         naiveproxy shadowsocks-rust sing-box v2ray-core v2ray-geodata v2ray-geoview v2ray-plugin \
         tuic-client chinadns-ng ipt2socks tcping trojan-plus simple-obfs shadowsocksr-libev \
         luci-app-passwall alist luci-app-alist smartdns luci-app-smartdns v2dat mosdns luci-app-mosdns \
-        adguardhome luci-app-adguardhome ddns-go luci-app-ddns-go taskd luci-lib-xterm luci-lib-taskd \
-        luci-app-store quickstart luci-app-quickstart luci-app-istorex luci-app-cloudflarespeedtest \
+        ddns-go luci-app-ddns-go taskd luci-lib-xterm luci-lib-taskd luci-app-cloudflarespeedtest \
         luci-theme-argon netdata luci-app-netdata lucky luci-app-lucky luci-app-openclash mihomo \
         luci-app-mihomo luci-app-homeproxy luci-app-amlogic
+}
+
+install_kiddin9() {
+    ./scripts/feeds install -p kiddin9 -f adguardhome luci-app-adguardhome luci-app-turboacc
 }
 
 install_feeds() {
@@ -142,6 +159,8 @@ install_feeds() {
         if [ -d "$dir" ] && [[ ! "$dir" == *.tmp ]] && [ ! -L "$dir" ]; then
             if [[ $(basename "$dir") == "small8" ]]; then
                 install_small8
+            elif [[ $(basename "$dir") == "kiddin9" ]]; then
+                install_kiddin9
             else
                 ./scripts/feeds install -f -ap $(basename "$dir")
             fi
