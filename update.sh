@@ -73,7 +73,7 @@ update_feeds() {
 
 remove_unwanted_packages() {
     local luci_packages=(
-        "luci-app-quickstart" "luci-app-dockerman" "luci-theme-argon"
+        "luci-app-quickstart" "luci-app-dockerman"
     )
     local packages_net=(
         "adguardhome" "quickstart" "uhttpd"
