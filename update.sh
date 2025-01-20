@@ -73,7 +73,7 @@ update_feeds() {
 
 remove_unwanted_packages() {
     local luci_packages=(
-        "luci-app-quickstart" "luci-app-dockerman"
+        "luci-app-quickstart" "luci-app-dockerman" "luci-app-dockerman" "luci-theme-argon"
     )
     local packages_net=(
         "adguardhome" "quickstart" "uhttpd"
@@ -103,13 +103,21 @@ update_golang() {
     fi
 }
 
+install_divim() {
+    ./scripts/feeds install -p divim -f adguardhome luci-app-adguardhome quickstart luci-app-quickstart \
+        luci-theme-argon lucky luci-app-lucky caddy my-default-settings luci-app-athena-led \
+}
 
 install_feeds() {
     ./scripts/feeds update -i
     for dir in $BUILD_DIR/feeds/*; do
         # 检查是否为目录并且不以 .tmp 结尾，并且不是软链接
         if [ -d "$dir" ] && [[ ! "$dir" == *.tmp ]] && [ ! -L "$dir" ]; then
-            ./scripts/feeds install -f -ap $(basename "$dir")
+            if [[ $(basename "$dir") == "divim" ]]; then
+                install_divim
+            else
+                ./scripts/feeds install -f -ap $(basename "$dir")
+            fi
         fi
     done
 }
