@@ -105,7 +105,7 @@ update_golang() {
 
 install_divim() {
     ./scripts/feeds install -p divim -f adguardhome luci-app-adguardhome quickstart luci-app-quickstart \
-        luci-theme-argon lucky luci-app-lucky caddy my-default-settings luci-app-athena-led \
+        luci-theme-argon lucky luci-app-lucky caddy my-default-settings luci-app-athena-led
 }
 
 install_feeds() {
