@@ -76,7 +76,7 @@ remove_unwanted_packages() {
         "luci-app-quickstart" "luci-theme-argon" "luci-app-dockerman"
     )
     local packages_net=(
-        "adguardhome" "quickstart"
+        "adguardhome" "quickstart" "dnsmasq-full"
     )
 
     for pkg in "${luci_packages[@]}"; do
