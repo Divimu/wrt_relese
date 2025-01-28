@@ -39,9 +39,9 @@ jdc_ax1800_pro_wifi_cfg() {
 }
 
 jdc_ax6600_wifi_cfg() {
-    configure_wifi 0 149 HE80 22 'Jdc_AX6600_5G1' '12345678'
+    configure_wifi 0 149 HE80 22 'DENG' 'asdfghjkl'
     configure_wifi 1 1 HE20 22 'Jdc_AX6600' '12345678'
-    configure_wifi 2 44 HE160 23 'Jdc_AX6600_5G2' '12345678'
+    configure_wifi 2 44 HE160 23 'DENG-WS' '3344520@me'
 }
 
 redmi_ax5_wifi_cfg() {
