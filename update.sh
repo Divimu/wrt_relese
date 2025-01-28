@@ -73,7 +73,7 @@ update_feeds() {
 
 remove_unwanted_packages() {
     local luci_packages=(
-        "luci-app-quickstart" "luci-theme-argon"
+        "luci-app-quickstart" "luci-theme-argon" "luci-app-dockerman"
     )
     local packages_net=(
         "adguardhome" "quickstart"
@@ -104,7 +104,7 @@ update_golang() {
 }
 
 install_divim() {
-    ./scripts/feeds install -p divim -f adguardhome luci-app-adguardhome quickstart luci-app-quickstart luci-theme-argon
+    ./scripts/feeds install -p divim -f adguardhome luci-app-adguardhome quickstart luci-app-quickstart luci-theme-argon luci-app-dockerman
 }
 
 install_feeds() {
