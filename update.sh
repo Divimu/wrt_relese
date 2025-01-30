@@ -73,10 +73,13 @@ update_feeds() {
 
 remove_unwanted_packages() {
     local luci_packages=(
-        "luci-app-quickstart" "luci-theme-argon" "luci-app-dockerman"
+        "luci-app-quickstart" "luci-theme-argon" "luci-app-dockerman" "luci-app-homeproxy"
     )
     local packages_net=(
-        "adguardhome" "quickstart" "dnsmasq-full"
+        "adguardhome" "quickstart" "dnsmasq-full" "haproxy" "xray-core" "dns2socks"
+        "alist" "hysteria" "naiveproxy" "shadowsocks-rust" "sing-box" "v2ray-core"
+        "v2ray-geodata" "v2ray-plugin" "tuic-client" "chinadns-ng" "ipt2socks" "tcping"
+        "trojan-plus" "simple-obfs" "shadowsocksr-libev" "dae" "daed" "mihomo" "geoview"
     )
 
     for pkg in "${luci_packages[@]}"; do
